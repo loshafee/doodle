@@ -8,13 +8,27 @@ class Particle {
     this.radius = options.radius
     this.speed = options.speed
     this.color = options.color
+    this.type = options.type || 'circle'
   }
 
-  draw () {
+  draw (path) {
     this.ctx.fillStyle = this.color
     this.ctx.beginPath()
-    this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+
+    if (typeof path === 'function') {
+      path()
+    } else {
+      switch (this.type) {
+      case 'circle':
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+        break
+      case 'rect':
+        this.ctx.rect(this.x, this.y, this.width, this.height)
+        break
+      }
+    }
     this.ctx.closePath()
+    this.ctx.fill()
   }
 }
 
@@ -70,11 +84,7 @@ class Simulator {
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
     for (let i in this.particles) {
       let particle = this.particles[i]
-      this.ctx.beginPath()      
-      this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2, false)
-      this.ctx.closePath()
-      this.ctx.fillStyle = particle.color
-      this.ctx.fill()
+      particle.draw()
     }
   }
 }
