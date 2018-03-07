@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Doodle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #box {
+            width: 320px;
+            height: 320px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script src="../src/Doodle.js"></script>
+    <script>
+        let doodle = new Doodle('#box', {
+            font: '32px Microsoft Yahei',
+            fillStyle: 'green'
+        })
+
+        doodle.next({
+            fillRect: [100, 100, 100, 100]
+        }).next({
+            fillStyle: 'red',
+            fillText: ['Hello world ...', 50, 50]
+        })
+    </script>
+</body>
+</html>
