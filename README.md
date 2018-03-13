@@ -2,7 +2,18 @@
 
 ## an easy usage canvas Javascript library with effections
 
-## examples
+## API
+* `Property`
+    * `canvas` canvas 画布元素
+    * `ctx` 2d上下文
+    * `config` 配置项
+
+* `method`
+    * `next(options)`
+    * `fillCircle(x, y, radius, startAngle, endAngle, clockwise)` 填充圆
+    * `strokeCircle(x, y, radius, startAngle, endAngle, clockwise)` 描边圆
+
+## 例子examples
 
     let doodle = new Doodle('#box', {
         font: '32px Microsoft Yahei',
