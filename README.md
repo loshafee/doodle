@@ -9,9 +9,13 @@
     * `config` 配置项
 
 * `method`
-    * `next(options)`
+    * `next(options)` 下一步操作，返回 `function`
     * `fillCircle(x, y, radius, startAngle, endAngle, clockwise)` 填充圆
     * `strokeCircle(x, y, radius, startAngle, endAngle, clockwise)` 描边圆
+    * `fillPolygon(x1,y1,x2,y2,...)` 填充多边形
+    * `strokePolygon(x1,y1,x2,y2,...)` 描边多边形
+    * `fillText(text, x, y)` 填充文本
+    * `strokeText(text, x, y)` 描边文本
 
 ## 例子examples
 
