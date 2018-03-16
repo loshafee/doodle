@@ -220,6 +220,9 @@ class Doodle {
     return {
       snow: function () {
         new Simulator(this.ctx, 100, 'snow')
+      }.bind(this),
+      launch: function () {
+        new Simulator(this.ctx, 100, 'launch')
       }.bind(this)
     }
   }
