@@ -1,3 +1,27 @@
+let initialEffect = {
+  snow: function (ctx) {
+    return {
+      type: 'circle',
+      x: Math.random() * ctx.canvas.width,
+      y: 0,
+      speedX: 0,
+      speedY: 2 + Math.random() * 3,
+      radius: 5 + Math.random() * 5,
+      color: 'white'
+    }
+  },
+  launch: function (ctx) {
+    return {
+      type: 'circle',
+      x: ctx.canvas.width / 2,
+      y: ctx.canvas.height / 2,
+      speedX: Math.random() * 8 - 4,
+      speedY: Math.random() * 8 - 4,
+      radius: 5 + Math.random() * 5,
+      color: 'white'
+    }
+  }
+}
 class Particle {
   constructor (ctx, options) {
     this.ctx = ctx
@@ -6,7 +30,8 @@ class Particle {
     this.width = options.width
     this.height = options.height
     this.radius = options.radius
-    this.speed = options.speed
+    this.speedX = options.speedX
+    this.speedY = options.speedY
     this.color = options.color
     this.type = options.type || 'circle'
   }
@@ -33,11 +58,12 @@ class Particle {
 }
 
 class Simulator {
-  constructor (ctx, count) {
+  constructor (ctx, count, effect) {
     this.tick = 0
     this.count = count
     this.particles = []
     this.ctx = ctx
+    this.effect = effect
     this.loop()
   }
 
@@ -50,15 +76,10 @@ class Simulator {
   }
 
   createParticles (count) {
-    if (this.tick % 10 == 0) {
+    this.tick++
+    if (this.tick % 3 == 0) {
       if (this.particles.length < count) {
-        this.particles.push(new Particle(this.ctx, {
-          x: Math.random() * this.ctx.canvas.width,
-          y: 0,
-          speed: 2 + Math.random() * 3,
-          radius: 5 + Math.random() * 5,
-          color: 'white'
-        }))
+        this.particles.push(new Particle(this.ctx, initialEffect[this.effect](this.ctx)))
       }
     }
   }
@@ -66,15 +87,22 @@ class Simulator {
   updateParticles () {
     for (let i in this.particles) {
       let particle = this.particles[i]
-      particle.y += particle.speed
+      particle.x += particle.speedX
+      particle.y += particle.speedY
     }
   }
 
   killParticles () {
     for (let i in this.particles) {
       let particle = this.particles[i]
-      if (particle.y > this.ctx.canvas.height) {
-        particle.y = 0
+      if (particle.y > this.ctx.canvas.height || particle.y < -10 || particle.x > this.ctx.canvas.width || particle.x < 0) {
+        particle.hitable = true
+        particle.index = i
+      }
+    }
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      if(this.particles[i].hitable) {
+        this.particles.splice(i, 1)
       }
     }
   }
@@ -188,6 +216,11 @@ class Doodle {
   }
   
   effectParticle () {
-    new Simulator(this.ctx, 100)
+    
+    return {
+      snow: function () {
+        new Simulator(this.ctx, 100, 'snow')
+      }.bind(this)
+    }
   }
 }
