@@ -7,6 +7,7 @@ let initialEffect = {
       speedX: 0,
       speedY: 2 + Math.random() * 3,
       radius: 5 + Math.random() * 5,
+      opacity: 0,
       color: 'white'
     }
   },
@@ -17,7 +18,8 @@ let initialEffect = {
       y: ctx.canvas.height / 2,
       speedX: Math.random() * 8 - 4,
       speedY: Math.random() * 8 - 4,
-      radius: 5 + Math.random() * 5,
+      radius: 5,
+      opacity: 0.01,
       color: 'white'
     }
   }
@@ -33,18 +35,19 @@ class Particle {
     this.speedX = options.speedX
     this.speedY = options.speedY
     this.color = options.color
+    this.opacity = options.opacity
     this.type = options.type || 'circle'
   }
 
   draw (path) {
     this.ctx.fillStyle = this.color
     this.ctx.beginPath()
-
     if (typeof path === 'function') {
       path()
     } else {
       switch (this.type) {
       case 'circle':
+        this.radius += 0.1
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
         break
       case 'rect':
@@ -77,7 +80,7 @@ class Simulator {
 
   createParticles (count) {
     this.tick++
-    if (this.tick % 3 == 0) {
+    if (this.tick % 5 == 0) {
       if (this.particles.length < count) {
         this.particles.push(new Particle(this.ctx, initialEffect[this.effect](this.ctx)))
       }
