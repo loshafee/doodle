@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>boom</title>
+	<style type="text/css">
+		.slice {
+			position: absolute;
+			width: 10px;
+			height: 10px;
+			background-color: black;
+			border-radius: 50%;
+			display: none;
+		}
+			
+		#box {
+			position: relative;
+			width: 500px;
+			height: 500px;
+			border: 10px solid black;
+		}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+	<script type="text/javascript">
+		var box = document.getElementById('box')
+		var dotArrays = []
+		for (var i = 0; i < 5; i++) {
+			var dot = document.createElement('div')
+			dot.classList.add('slice')
+			dotArrays.push(dot)
+			dot.style.left = 245 + 'px'
+			dot.style.top = 245 + 'px'
+			box.appendChild(dot)
+		}
+
+		function rnd(min, max) {
+			return parseInt(Math.random() * (max - min) + min)
+		}
+
+		var g = 0.004
+
+		dotArrays.forEach(function (dot, index) {
+			var speedX = rnd(-4, 6)
+			var speedY = rnd(-5, -2)
+			var start = 245
+			var end = 500
+			var step = 40
+			var change = 245
+			var tick = 0
+
+			var maxT = Math.floor(Math.sqrt((40 - speedX) * 2 /g))
+			setTimeout(function () {
+				dot.style.display = 'block'
+				var id = setInterval(function () {
+					tick++
+					if (dot.offsetTop >= 500) {
+						clearInterval(id)
+					}
+					dot.style.top = dot.offsetTop + parseInt(1/2 * g * tick * tick + speedY )+ 'px'
+				}, 17)
+			}, rnd(10, 100) * 10)
+			
+			
+			
+		})
+	</script>
+</body>
+</html>

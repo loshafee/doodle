@@ -7,6 +7,7 @@ let initialEffect = {
       speedX: 0,
       speedY: 2 + Math.random() * 3,
       radius: 5 + Math.random() * 5,
+      deltaRaduis: 0,
       opacity: 0,
       color: 'white'
     }
@@ -33,6 +34,20 @@ let initialEffect = {
       speedY: Math.random() * 8 - 4,
       radius: 20,
       deltaRaduis: -0.2,
+      opacity: 0.01,
+      color: 'white'
+    }
+  },
+  boom: function (ctx) {
+    return {
+      type: 'circle',
+      x: ctx.canvas.width / 2,
+      y: ctx.canvas.height / 2,
+      speedX: Math.random() * 8 - 4,
+      speedY: Math.random() * 8 - 4,
+      radius: 4,
+      deltaRaduis: -0.2,
+      velocity: 4,
       opacity: 0.01,
       color: 'white'
     }
@@ -63,7 +78,6 @@ class Particle {
       switch (this.type) {
       case 'circle':
         this.radius += this.deltaRaduis
-        console.log(this.radius)
         if(this.radius < 0) {
           this.radius = 0
         }
@@ -248,7 +262,10 @@ class Doodle {
       }.bind(this),
       bubble: function () {
         new Simulator(this.ctx, 100, 'bubble')
-      }.bind(this)
+      }.bind(this),
+      boom: function () {
+        new Simulator(this.ctx, 100, 'boom')
+      }
     }
   }
 }
