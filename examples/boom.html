@@ -25,7 +25,7 @@
 	<script type="text/javascript">
 		var box = document.getElementById('box')
 		var dotArrays = []
-		for (var i = 0; i < 5; i++) {
+		for (var i = 0; i < 100; i++) {
 			var dot = document.createElement('div')
 			dot.classList.add('slice')
 			dotArrays.push(dot)
@@ -41,8 +41,8 @@
 		var g = 0.004
 
 		dotArrays.forEach(function (dot, index) {
-			var speedX = rnd(-4, 6)
-			var speedY = rnd(-5, -2)
+			var speedX = rnd(-4, 4)
+			var speedY = rnd(-7, -2)
 			var start = 245
 			var end = 500
 			var step = 40
@@ -52,12 +52,14 @@
 			var maxT = Math.floor(Math.sqrt((40 - speedX) * 2 /g))
 			setTimeout(function () {
 				dot.style.display = 'block'
+				dot.style.backgroundColor = 'rgb('+ rnd(0, 255)+', '+ rnd(0, 255)+', '+ rnd(0, 255)+')'
 				var id = setInterval(function () {
 					tick++
 					if (dot.offsetTop >= 500) {
 						clearInterval(id)
 					}
-					dot.style.top = dot.offsetTop + parseInt(1/2 * g * tick * tick + speedY )+ 'px'
+					dot.style.left = dot.offsetLeft + speedX + 'px'
+					dot.style.top = dot.offsetTop + parseInt(1/2 * g * tick * tick + speedY ) + 'px'
 				}, 17)
 			}, rnd(10, 100) * 10)
 			
