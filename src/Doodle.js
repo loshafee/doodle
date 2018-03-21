@@ -48,7 +48,7 @@ let initialEffect = {
       radius: 4,
       deltaRaduis: -0.2,
       velocity: 4,
-      opacity: 0.01,
+      opacity: 1,
       color: 'white'
     }
   }
@@ -265,7 +265,7 @@ class Doodle {
       }.bind(this),
       boom: function () {
         new Simulator(this.ctx, 100, 'boom')
-      }
+      }.bind(this)
     }
   }
 }
